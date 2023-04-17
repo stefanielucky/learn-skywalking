@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License. -->
 <template>
   <div class="tool">
+    测试位置2222
     <span
       v-show="
         dashboardStore.entity === EntityType[2].value &&

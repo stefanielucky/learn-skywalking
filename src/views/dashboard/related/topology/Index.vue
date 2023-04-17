@@ -13,8 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. -->
 <template>
+  related -----
   <Graph :config="config" v-if="isService" />
-  <PodTopology :config="config" v-else />
+  <!-- <PodTopology :config="config" v-else /> -->
+  <!-- <Graph :config="config" /> -->
+  <!-- <PodTopology :config="config" /> -->
 </template>
 <script lang="ts" setup>
 import type { PropType } from "vue";
@@ -24,12 +27,14 @@ import { EntityType } from "../../data";
 import { useDashboardStore } from "@/store/modules/dashboard";
 
 /*global defineProps */
-defineProps({
+const prop = defineProps({
   config: {
     type: Object as PropType<any>,
     default: () => ({ graph: {} }),
   },
 });
+const topologyData = JSON.parse(JSON.stringify(prop.config));
+console.log("打印topology的prop", topologyData);
 const dashboardStore = useDashboardStore();
 const isService = [EntityType[0].value, EntityType[1].value].includes(
   dashboardStore.entity

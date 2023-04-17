@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. -->
 <template>
+  服务节点基础设施信息 图表展示
   <grid-layout
     v-model:layout="dashboardStore.layout"
     :col-num="24"
@@ -33,6 +34,7 @@ limitations under the License. -->
       :class="{ active: dashboardStore.activedGridItem === item.i }"
       :drag-ignore-from="dragIgnoreFrom"
     >
+      <p>新-topologys</p>
       <component :is="item.type" :data="item" />
     </grid-item>
   </grid-layout>

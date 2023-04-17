@@ -11,6 +11,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. -->
 <template>
+  d3 树图位置
   <div class="trace-t-loading" v-show="loading">
     <Icon iconName="spinner" size="sm" />
   </div>
@@ -34,6 +35,8 @@ import TreeGraph from "../../utils/d3-trace-tree";
 import { Span, Ref } from "@/types/trace";
 import SpanDetail from "./SpanDetail.vue";
 
+import responsedata2 from "./data.json";
+
 /* global defineProps, Nullable, defineExpose*/
 const props = defineProps({
   data: { type: Array as PropType<Span[]>, default: () => [] },
@@ -48,12 +51,15 @@ const currentSpan = ref<Array<Span>>([]);
 const refSpans = ref<Array<Ref>>([]);
 const tree = ref<any>(null);
 const traceGraph = ref<Nullable<HTMLDivElement>>(null);
+
+const responseData = ref<any>([]);
 defineExpose({
   tree,
 });
 onMounted(() => {
   loading.value = true;
   changeTree();
+  debugger;
   if (!traceGraph.value) {
     loading.value = false;
     return;
@@ -67,6 +73,7 @@ onMounted(() => {
     );
     tree.value.draw();
   } else {
+    console.log("traceGraph", traceGraph);
     tree.value = new TreeGraph(traceGraph.value, handleSelectSpan);
     tree.value.init(
       { label: `${props.traceId}`, children: segmentId.value },
@@ -98,7 +105,11 @@ function traverseTree(node: any, spanId: string, segmentId: string, data: any) {
   }
 }
 function changeTree() {
-  if (props.data.length === 0) {
+  responseData.value = JSON.parse(
+    JSON.stringify(responsedata2)
+  ).data.trace.spans;
+  console.log("d3树图位置---- 打印props.data", responseData.value);
+  if (responseData.value.length === 0) {
     return [];
   }
   segmentId.value = [];
@@ -106,14 +117,14 @@ function changeTree() {
   const segmentIdGroup: any = [];
   const fixSpans: Span[] = [];
   const segmentHeaders: Span[] = [];
-  for (const span of props.data) {
+  for (const span of responseData.value) {
     if (span.refs.length) {
       refSpans.value.push(...span.refs);
     }
     if (span.parentSpanId === -1) {
       segmentHeaders.push(span);
     } else {
-      const item = props.data.find(
+      const item = responseData.value.find(
         (i: Span) =>
           i.segmentId === span.segmentId && i.spanId === span.spanId - 1
       );
@@ -146,7 +157,7 @@ function changeTree() {
   segmentHeaders.forEach((span: Span) => {
     if (span.refs.length) {
       span.refs.forEach((ref) => {
-        const index = props.data.findIndex(
+        const index = responseData.value.findIndex(
           (i: any) =>
             ref.parentSegmentId === i.segmentId && ref.parentSpanId === i.spanId
         );
@@ -208,7 +219,7 @@ function changeTree() {
       });
     }
   });
-  [...fixSpans, ...props.data].forEach((i) => {
+  [...fixSpans, ...responseData.value].forEach((i) => {
     i.label = i.endpointName || "no operation name";
     i.children = [];
     if (segmentGroup[i.segmentId] === undefined) {
@@ -241,7 +252,7 @@ function changeTree() {
         }
       }
       if (s.isBroken) {
-        const children = _.filter(props.data, (span: Span) => {
+        const children = _.filter(responseData.value, (span: Span) => {
           return _.find(span.refs, {
             traceId: s.traceId,
             parentSegmentId: s.segmentId,
@@ -257,6 +268,7 @@ function changeTree() {
   });
   segmentIdGroup.forEach((id: string) => {
     segmentGroup[id].refs.forEach((ref: any) => {
+      debugger;
       if (ref.traceId === props.traceId) {
         traverseTree(
           segmentGroup[ref.parentSegmentId],
@@ -267,11 +279,13 @@ function changeTree() {
       }
     });
   });
+  console.log("begin", segmentId.value);
   for (const i in segmentGroup) {
     if (segmentGroup[i].refs.length === 0) {
       segmentId.value.push(segmentGroup[i]);
     }
   }
+  console.log("初始赋值", segmentId.value);
   segmentId.value.forEach((i: any) => {
     collapse(i);
   });
@@ -311,7 +325,10 @@ watch(
       return;
     }
     loading.value = true;
+    console.log(props.data);
     changeTree();
+    console.log("debugger console", props.data);
+    console.log("tree.value console", tree.value);
     tree.value.init(
       { label: "TRACE_ROOT", children: segmentId.value },
       props.data,

@@ -35,7 +35,8 @@ limitations under the License. -->
       </a>
     </div>
     <div class="trace-tree">
-      <Graph ref="charts" :data="data" :traceId="traceId" type="Tree" />
+      tree -----
+      <!-- <Graph ref="charts" :data="data" :traceId="traceId" type="Tree" /> -->
     </div>
   </div>
 </template>
@@ -58,6 +59,7 @@ const charts = ref<any>(null);
 
 onMounted(() => {
   list.value = Array.from(new Set(props.data.map((i: Span) => i.serviceCode)));
+  console.log("打印tree, list", list.value);
 });
 function computedScale(i: number) {
   const sequentialScale = d3

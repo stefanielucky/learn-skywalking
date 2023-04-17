@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License. -->
 
 <template>
+  面积图
   <Line
     :data="data"
     :intervalTime="intervalTime"

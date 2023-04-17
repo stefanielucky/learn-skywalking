@@ -1,0 +1,57 @@
+{
+  "data": {
+    "trace": {
+      "spans": [{
+        "traceId": "e85cfed08c954b629694d45e37ff7b3d.69.16787585516088833",
+        "segmentId": "e85cfed08c954b629694d45e37ff7b3d.69.16787585516088832",
+        "spanId": 0,
+        "parentSpanId": -1,
+        "refs": [],
+        "serviceCode": "test2",
+        "serviceInstanceName": "624df4f095c34aee80a42d6e3131b581@192.168.128.131",
+        "startTime": 1678758551608,
+        "endTime": 1678758551611,
+        "endpointName": "/actuator/prometheus",
+        "type": "Entry",
+        "peer": "",
+        "component": "Undertow",
+        "isError": false,
+        "layer": "Http",
+        "tags": [{
+          "key": "url",
+          "value": "http://192.168.128.131:8999/actuator/prometheus"
+        }, {
+          "key": "http.method",
+          "value": "GET"
+        }, {
+          "key": "http.status_code",
+          "value": "200"
+        }],
+        "logs": []
+      }, {
+        "traceId": "e85cfed08c954b629694d45e37ff7b3d.69.16787585516088833",
+        "segmentId": "e85cfed08c954b629694d45e37ff7b3d.91.16787585516089470",
+        "spanId": 0,
+        "parentSpanId": -1,
+        "refs": [{
+          "traceId": "e85cfed08c954b629694d45e37ff7b3d.69.16787585516088833",
+          "parentSegmentId": "e85cfed08c954b629694d45e37ff7b3d.69.16787585516088832",
+          "parentSpanId": 0,
+          "type": "CROSS_THREAD"
+        }],
+        "serviceCode": "test2",
+        "serviceInstanceName": "624df4f095c34aee80a42d6e3131b581@192.168.128.131",
+        "startTime": 1678758551608,
+        "endTime": 1678758551611,
+        "endpointName": "UndertowDispatch",
+        "type": "Local",
+        "peer": "",
+        "component": "Undertow",
+        "isError": false,
+        "layer": "Unknown",
+        "tags": [],
+        "logs": []
+      }]
+    }
+  }
+}

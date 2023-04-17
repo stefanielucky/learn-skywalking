@@ -97,6 +97,8 @@ function traverseTree(node: any, spanId: string, segmentId: string, data: any) {
   }
 }
 function changeTree() {
+  props.data = JSON.parse(JSON.stringify(responsedata)).data.trace.spans;
+  console.log("d3树图位置---- 打印props.data", props.data);
   if (props.data.length === 0) {
     return [];
   }
@@ -266,11 +268,13 @@ function changeTree() {
       }
     });
   });
+  console.log("begin", segmentId.value);
   for (const i in segmentGroup) {
     if (segmentGroup[i].refs.length === 0) {
       segmentId.value.push(segmentGroup[i]);
     }
   }
+  console.log("初始赋值", segmentId.value);
   segmentId.value.forEach((i: any) => {
     collapse(i);
   });

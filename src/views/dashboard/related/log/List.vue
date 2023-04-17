@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License. -->
 <template>
   <div>
+    展示logtable
     <LogTable
       v-loading="logStore.loadLogs"
       :tableData="logStore.logs || []"

@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License. -->
 <template>
   <div class="table">
+    基础设施 - linux
     <div class="search">
       <el-input
         v-model="searchText"

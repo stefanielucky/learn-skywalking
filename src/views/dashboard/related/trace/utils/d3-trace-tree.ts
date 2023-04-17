@@ -96,9 +96,11 @@ export default class TraceMap {
     d3.zoom().transform(this.body, transform);
   }
   init(data: any, row: any) {
+    debugger;
     this.treemap = d3.tree().size([row.length * 35, this.width]);
     this.row = row;
     this.data = data;
+    debugger;
     this.min = Number(d3.min(this.row.map((i: Span) => i.startTime)));
     this.max = Number(d3.max(this.row.map((i: Span) => i.endTime - this.min)));
     this.list = Array.from(new Set(this.row.map((i: Span) => i.serviceCode)));

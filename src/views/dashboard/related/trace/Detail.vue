@@ -102,6 +102,7 @@ limitations under the License. -->
       </div>
     </div>
     <div class="no-data" v-else>{{ t("noData") }}</div>
+    <!-- 树图结构整理 :data="traceStore.traceSpans" -->
     <div class="trace-chart">
       <component
         v-if="traceStore.currentTrace.endpointNames"
@@ -150,6 +151,7 @@ export default defineComponent({
       traceId.value = opt[0].value;
       loading.value = true;
       const res = await traceStore.getTraceSpans({ traceId: opt[0].value });
+      debugger;
       if (res.errors) {
         ElMessage.error(res.errors);
       }

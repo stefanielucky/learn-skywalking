@@ -27,6 +27,9 @@ limitations under the License. -->
       </el-button>
     </div>
     <div class="list">
+      <br />
+      <br />
+      树图展示位置 ----- ------
       <Graph :data="data" :traceId="traceId" type="List" />
     </div>
   </div>
@@ -44,6 +47,7 @@ const props = defineProps({
   data: { type: Array as PropType<Span[]>, default: () => [] },
   traceId: { type: String, default: "" },
 });
+
 const { t } = useI18n();
 const list = computed(() =>
   Array.from(new Set(props.data.map((i: Span) => i.serviceCode)))

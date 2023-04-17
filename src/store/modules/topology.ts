@@ -407,6 +407,7 @@ export const topologyStore = defineStore({
         this.setLinkClientMetrics({});
         return;
       }
+      // 中心包含
       const idsC = this.calls
         .filter((i: Call) => i.detectPoints.includes("CLIENT"))
         .map((b: Call) => b.id);

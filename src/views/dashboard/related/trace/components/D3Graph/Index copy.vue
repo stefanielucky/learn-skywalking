@@ -11,6 +11,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. -->
 <template>
+  d3 树图位置
   <div class="trace-t-loading" v-show="loading">
     <Icon iconName="spinner" size="sm" />
   </div>
@@ -33,6 +34,9 @@ import ListGraph from "../../utils/d3-trace-list";
 import TreeGraph from "../../utils/d3-trace-tree";
 import { Span, Ref } from "@/types/trace";
 import SpanDetail from "./SpanDetail.vue";
+
+import responsedata from "./data.json";
+
 /* global defineProps, Nullable, defineExpose*/
 const props = defineProps({
   data: { type: Array as PropType<Span[]>, default: () => [] },
@@ -47,6 +51,8 @@ const currentSpan = ref<Array<Span>>([]);
 const refSpans = ref<Array<Ref>>([]);
 const tree = ref<any>(null);
 const traceGraph = ref<Nullable<HTMLDivElement>>(null);
+
+const responseData = ref<any>([]);
 defineExpose({
   tree,
 });
@@ -66,6 +72,7 @@ onMounted(() => {
     );
     tree.value.draw();
   } else {
+    console.log("traceGraph", traceGraph);
     tree.value = new TreeGraph(traceGraph.value, handleSelectSpan);
     tree.value.init(
       { label: `${props.traceId}`, children: segmentId.value },
@@ -97,6 +104,7 @@ function traverseTree(node: any, spanId: string, segmentId: string, data: any) {
   }
 }
 function changeTree() {
+  console.log("d3树图位置---- 打印props.data", props.data);
   if (props.data.length === 0) {
     return [];
   }
@@ -266,11 +274,15 @@ function changeTree() {
       }
     });
   });
+  console.log("begin", segmentId.value);
+  debugger;
   for (const i in segmentGroup) {
     if (segmentGroup[i].refs.length === 0) {
       segmentId.value.push(segmentGroup[i]);
     }
   }
+  console.log("初始赋值", segmentId.value);
+  debugger;
   segmentId.value.forEach((i: any) => {
     collapse(i);
   });
@@ -310,7 +322,11 @@ watch(
       return;
     }
     loading.value = true;
+    console.log(props.data);
+    // debugger;
     changeTree();
+    console.log("debugger console", props.data);
+    console.log("tree.value console", tree.value);
     tree.value.init(
       { label: "TRACE_ROOT", children: segmentId.value },
       props.data,
@@ -328,25 +344,31 @@ watch(
 .d3-graph {
   height: 100%;
 }
+
 .trace-node .group {
   cursor: pointer;
   fill-opacity: 0;
 }
+
 .trace-node-container {
   fill: rgba(0, 0, 0, 0);
   stroke-width: 5px;
   cursor: pointer;
+
   &:hover {
     fill: rgba(0, 0, 0, 0.05);
   }
 }
+
 .trace-node .node-text {
   font: 12.5px sans-serif;
   pointer-events: none;
 }
+
 .domain {
   display: none;
 }
+
 .time-charts-item {
   display: inline-block;
   padding: 2px 8px;
@@ -354,12 +376,7 @@ watch(
   font-size: 11px;
   border-radius: 4px;
 }
-.trace-list .trace-node rect {
-  cursor: pointer;
-  &:hover {
-    fill: rgba(0, 0, 0, 0.05);
-  }
-}
+
 .dialog-c-text {
   white-space: pre;
   overflow: auto;

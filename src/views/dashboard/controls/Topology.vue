@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. -->
 <template>
+  <p>拓扑展示位置</p>
   <div class="topology flex-v">
     <div class="operation">
       <el-popover

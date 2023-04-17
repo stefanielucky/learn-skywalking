@@ -46,6 +46,7 @@ const tableData = ref<any>([]);
 const list = ref<any[]>([]);
 
 onMounted(() => {
+  console.log("打印props.data", props.data);
   tableData.value = calculationDataforStatistics(props.data);
   loading.value = false;
   emit("load", () => {
@@ -54,9 +55,13 @@ onMounted(() => {
 });
 
 function calculationDataforStatistics(data: Span[]): StatisticsSpan[] {
+  console.log("打印data", data);
   list.value = traceTable.buildTraceDataList(data);
+  console.log("list.value", list.value);
   const result: StatisticsSpan[] = [];
+  console.log("打印props.traceId", props.traceId);
   const map = traceTable.changeStatisticsTree(data, props.traceId);
+  console.log("打印map", map);
   map.forEach((nodes, nodeKey) => {
     const nodeKeyData = nodeKey.split(":");
     result.push(

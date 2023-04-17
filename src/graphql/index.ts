@@ -48,21 +48,19 @@ class Graphql {
     return this;
   }
   public params(variablesData: unknown): AxiosPromise<void> {
+    const params = {
+      query: query[this.queryData],
+      variables: variablesData,
+    };
     return axios
-      .post(
-        "/graphql",
-        {
-          query: query[this.queryData],
-          variables: variablesData,
-        },
-        { cancelToken: cancelToken() }
-      )
+      .post("/graphql", params)
       .then((res: AxiosResponse) => {
         if (res.data.errors) {
           res.data.errors = res.data.errors
             .map((e: { message: string }) => e.message)
             .join(" ");
         }
+        console.log(params, Object.prototype.toString.call(params));
         return res;
       })
       .catch((err: Error) => {

@@ -59,7 +59,7 @@ limitations under the License. -->
         target="blank"
         href="https://github.com/apache/skywalking/blob/master/docs/en/setup/backend/configuration-vocabulary.md"
       >
-        {{ t("tagsLink") }}
+        {{ t("tagsLink") }} log页面展示 ------
       </a>
       <el-tooltip :content="t((tipsMap as any)[type])">
         <span>

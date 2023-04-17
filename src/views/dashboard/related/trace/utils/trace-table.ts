@@ -55,6 +55,8 @@ export default class TraceUtil {
     segmentIdList.forEach((segmentId: Span) => {
       this.collapse(segmentId);
     });
+    debugger;
+    console.log("打印结构树 ----- ", segmentIdList);
     return segmentIdList;
   }
 

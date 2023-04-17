@@ -20,6 +20,7 @@ limitations under the License. -->
     element-loading-background="rgba(0, 0, 0, 0)"
     :style="`height: ${height}px`"
   >
+    测试位置123
     <div class="legend">
       <div>
         <img :src="icons.CUBE" />
